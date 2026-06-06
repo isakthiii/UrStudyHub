@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ✏️ CHANGE: Update the title shown in browser tab -->
+<title>StudyNotes CS - Engineering Study Materials</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ✏️ CHANGE: Edit these color variables to change the whole site's color theme */
+  :root {
+    --bg: #0d0f14;           /* Main background */
+    --bg2: #13161e;          /* Section backgrounds */
+    --bg3: #1a1e2a;          /* Hover backgrounds */
+    --surface: #1f2435;      /* Card backgrounds */
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #f0f2ff;         /* Main text color */
+    --muted: #8890aa;        /* Secondary text */
+    --accent: #6c8eff;       /* Primary accent (blue) */
+    --accent2: #a78bfa;      /* Secondary accent (purple) */
+    --green: #34d399;
+    --amber: #fbbf24;
+    --coral: #f87171;
+    --teal: #2dd4bf;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 15px;
+  }
+
+  /* ===== NAVIGATION ===== */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(8px);
+  }
+
+  /* ✏️ CHANGE: Update site name in the .logo section in HTML below */
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.3rem;
+    color: var(--text);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); display: inline-block; }
+
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+
+  .nav-cta {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .nav-cta:hover { opacity: 0.85; }
+
+  /* ===== HERO SECTION ===== */
+  .hero {
+    padding: 4rem 2rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(108,142,255,0.12);
+    border: 1px solid rgba(108,142,255,0.25);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 14px;
+    border-radius: 100px;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.03em;
+  }
+
+  /* ✏️ CHANGE: Edit hero heading and subtext in HTML below */
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #f0f2ff 0%, #8890aa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p { color: var(--muted); font-size: 1rem; line-height: 1.7; max-width: 520px; margin: 0 auto 2rem; }
+
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .stat { text-align: center; }
+  .stat-num { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--text); }
+  .stat-label { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  /* ===== AD BANNER (Top) ===== */
+  /* ✏️ REPLACE: Paste your Google AdSense <script> code inside .ad-banner div */
+  .ad-banner {
+    margin: 1.5rem 2rem;
+    background: var(--bg2);
+    border: 1px dashed var(--border2);
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .ad-banner span { display: block; font-size: 11px; margin-top: 4px; color: rgba(136,144,170,0.5); }
+
+  /* ===== MAIN SECTION ===== */
+  .section { max-width: 960px; margin: 0 auto; padding: 2rem; }
+  .section-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 1.25rem; }
+  .section-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.1rem; color: var(--text); }
+  .see-all { font-size: 13px; color: var(--accent); text-decoration: none; }
+
+  /* ===== SEMESTER TABS ===== */
+  .sem-tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; }
+  .sem-tab {
+    padding: 6px 18px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--border2);
+    background: transparent;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.15s;
+  }
+  .sem-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .sem-tab:hover:not(.active) { color: var(--text); background: var(--bg3); }
+
+  /* ===== SUBJECT CARDS ===== */
+  /* ✏️ ADD: Copy a .subject-card div to add more subjects */
+  .subject-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+    margin-bottom: 2rem;
+  }
+  .subject-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.25rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  /* Top color stripe on each card */
+  .subject-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    border-radius: 14px 14px 0 0;
+  }
+  .subject-card.blue::before   { background: var(--accent); }
+  .subject-card.green::before  { background: var(--green); }
+  .subject-card.amber::before  { background: var(--amber); }
+  .subject-card.coral::before  { background: var(--coral); }
+  .subject-card.teal::before   { background: var(--teal); }
+  .subject-card.purple::before { background: var(--accent2); }
+
+  .subject-card:hover { border-color: var(--border2); background: var(--bg3); transform: translateY(-2px); }
+  .subject-icon { font-size: 22px; margin-bottom: 10px; display: block; }
+  .subject-name { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.9rem; color: var(--text); margin-bottom: 6px; }
+  .subject-meta { font-size: 12px; color: var(--muted); display: flex; gap: 8px; flex-wrap: wrap; }
+  .subject-tag { background: var(--bg2); border: 1px solid var(--border); padding: 2px 8px; border-radius: 4px; font-size: 11px; }
+
+  /* ===== MATERIALS LIST ===== */
+  /* ✏️ ADD: Copy a .material-item div to add more downloadable materials */
+  .materials-section { background: var(--bg2); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; }
+  .materials-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem; margin-bottom: 1rem; color: var(--text); }
+  .material-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: none;
+  }
+  .material-item:last-child { border-bottom: none; }
+  .material-item:hover { opacity: 0.75; }
+  .material-icon { width: 38px; height: 38px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
+  .material-icon.pdf   { background: rgba(248,113,113,0.15); }
+  .material-icon.notes { background: rgba(52,211,153,0.15); }
+  .material-icon.video { background: rgba(108,142,255,0.15); }
+  .material-info { flex: 1; }
+  .material-name { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+  .material-sub  { font-size: 12px; color: var(--muted); }
+  .material-badge { font-size: 11px; padding: 3px 10px; border-radius: 100px; font-weight: 500; }
+  .badge-free { background: rgba(52,211,153,0.15); color: var(--green); }
+  .badge-new  { background: rgba(108,142,255,0.15); color: var(--accent); }
+
+  /* ===== SIDEBAR ADS ===== */
+  /* ✏️ REPLACE: Paste your AdSense code inside .ad-placeholder div */
+  .ad-sidebar { background: var(--bg2); border: 1px dashed var(--border2); border-radius: 12px; padding: 1.25rem; text-align: center; margin-bottom: 1.5rem; }
+  .ad-sidebar-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .ad-placeholder { background: var(--bg3); border-radius: 8px; height: 120px; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 12px; }
+
+  /* ===== TWO COLUMN LAYOUT ===== */
+  .two-col { display: grid; grid-template-columns: 1fr 280px; gap: 1.5rem; }
+
+  /* ===== FOOTER ===== */
+  /* ✏️ CHANGE: Update your name/college in the footer */
+  footer { border-top: 1px solid var(--border); padding: 1.5rem 2rem; text-align: center; color: var(--muted); font-size: 12px; margin-top: 2rem; }
+
+  /* ===== MOBILE RESPONSIVE ===== */
+  @media (max-width: 600px) {
+    .two-col { grid-template-columns: 1fr; }
+    nav { padding: 1rem; }
+    .nav-links { display: none; }
+    .hero { padding: 2rem 1rem 1rem; }
+    .section { padding: 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== NAVIGATION ===== -->
+<nav>
+  <!-- ✏️ CHANGE: Update site name here -->
+  <a href="#" class="logo">
+    <span class="logo-dot"></span>
+    StudyNotes CS
+  </a>
+
+  <!-- ✏️ CHANGE: Add/remove nav links here -->
+  <ul class="nav-links">
+    <li><a href="#subjects">Subjects</a></li>
+    <li><a href="#papers">Past Papers</a></li>
+    <li><a href="#notes">Notes</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+
+  <button class="nav-cta">Upload Notes</button>
+</nav>
+
+
+<!-- ===== HERO SECTION ===== -->
+<div class="hero">
+  <!-- ✏️ CHANGE: Update badge text -->
+  <div class="hero-badge">🎓 Made by a freaky student 💦 </div>
+
+  <!-- ✏️ CHANGE: Update heading and description -->
+  <h1>Your University Notes,<br>All in One Place</h1>
+  <p>Free study materials for Anna University first year engineering students — notes, past papers, and more. Organized by subject.</p>
+
+  <!-- ✏️ CHANGE: Update these numbers as you add content -->
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">12+</div><div class="stat-label">Subjects covered</div></div>
+    <div class="stat"><div class="stat-num">80+</div><div class="stat-label">PDFs & Notes</div></div>
+    <div class="stat"><div class="stat-num">Free</div><div class="stat-label">Always free</div></div>
+  </div>
+</div>
+
+
+<!-- ===== TOP AD BANNER (728x90) ===== -->
+<!-- ✏️ REPLACE THIS ENTIRE DIV with your Google AdSense code once approved -->
+<div class="ad-banner">
+  Advertisement
+  <span>[ Replace this with Google AdSense 728×90 banner code ]</span>
+</div>
+
+
+<!-- ===== MAIN CONTENT ===== -->
+<div class="section" id="subjects">
+  <div class="section-header">
+    <div class="section-title">Semester Materials</div>
+    <a href="#" class="see-all">See all →</a>
+  </div>
+
+  <!-- Semester Tabs -->
+  <div class="sem-tabs">
+    <button class="sem-tab active" onclick="setTab(this, 'sem1')">Semester 1</button>
+    <button class="sem-tab"        onclick="setTab(this, 'sem2')">Semester 2</button>
+  </div>
+
+
+  <!-- ===== SEMESTER 1 SUBJECTS ===== -->
+  <div id="sem1">
+    <div class="subject-grid">
+
+      <!-- ✏️ COPY & PASTE a card block to add more subjects -->
+      <!-- Color classes: blue | green | amber | coral | teal | purple -->
+
+      <div class="subject-card blue">
+        <span class="subject-icon">📐</span>
+        <div class="subject-name">Engineering Mathematics I</div>
+        <div class="subject-meta">
+          <span class="subject-tag">Notes</span>
+          <span class="subject-tag">PYQ</span>
+        </div>
+      </div>
+
+      <div class="subject-card green">
+        <span class="subject-icon">⚛️</span>
+        <div class="subject-name">Engineering Physics</div>
+        <div class="subject-meta">
+          <span class="subject-tag">Notes</span>
+          <span class="subject-tag">Lab</span>
+        </div>
+      </div>
+
+      <div class="subject-card amber">
+        <span class="subject-icon">🧪</span>
+        <div class="subject-name">Engineering Chemistry</div>
+        <div class="subject-meta">
+          <span class="subject-tag">Notes</span>
+          <span class="subject-tag">PYQ</span>
+        </div>
+      </div>
+
+      <div class="subject-card coral">
+        <span class="subject-icon">💻</span>
+        <div class="subject-name">C Programming</div>
+        <div class="subject-meta">
+          <span class="subject-tag">Notes</span>
+          <span class="subject-tag">Programs</span>
+        </div>
+      </div>
+
+      <div class="subject-card teal">
+        <span class="subject-icon">⚙️</span>
+        <div class="subject-name">Engineering Graphics</div>
+        <div class="subject-meta">
+          <span class="subject-tag">Notes</span>
+        </div>
+      </div>
+
+      <div class="subject-card purple">
+        <span class="subject-icon">🗣️</span>
+        <div class="subject-name">English & Communication</div>
+        <div class="subject-meta">
+          <span class="subject-tag">Notes</span>
+          <span class="subject-tag">PYQ</span>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- end sem1 -->
+
+
+  <!-- ===== SEMESTER 2 SUBJECTS ===== -->
+  <div id="sem2" style="display:none;">
+    <div class="subject-grid">
+
+      <div class="subject-card blue">
+        <span class="subject-icon">📊</span>
+        <div class="subject-name">Mathematics II</div>
+        <div class="subject-meta"><span class="subject-tag">Notes</span><span class="subject-tag">PYQ</span></div>
+      </div>
+
+      <div class="subject-card teal">
+        <span class="subject-icon">🔌</span>
+        <div class="subject-name">Basic Electrical Engineering</div>
+        <div class="subject-meta"><span class="subject-tag">Notes</span></div>
+      </div>
+
+      <div class="subject-card purple">
+        <span class="subject-icon">🖥️</span>
+        <div class="subject-name">Data Structures</div>
+        <div class="subject-meta"><span class="subject-tag">Notes</span><span class="subject-tag">Programs</span></div>
+      </div>
+
+      <div class="subject-card green">
+        <span class="subject-icon">🔢</span>
+        <div class="subject-name">Digital Fundamentals</div>
+        <div class="subject-meta"><span class="subject-tag">Notes</span><span class="subject-tag">PYQ</span></div>
+      </div>
+
+    </div>
+  </div><!-- end sem2 -->
+  
+
+  <!-- ===== TWO COLUMN: Materials + Sidebar Ads ===== -->
+  <div class="two-col">
+
+    <!-- LEFT: Recently Added Materials -->
+    <div>
+      <div class="materials-section" id="notes">
+        <div class="materials-title">📄 Recently Added Materials</div>
+
+        <!-- ✏️ COPY & PASTE a .material-item block to add more files -->
+        <!-- For href: link to your Google Drive file or hosted PDF -->
+        <!-- Icon classes: pdf | notes | video -->
+        <!-- Badge classes: badge-free | badge-new -->
+
+        <a class="material-item" href="#" target="_blank">
+          <div class="material-icon pdf">📕</div>
+          <div class="material-info">
+            <div class="material-name">Maths I — Unit 1 to 5 Full Notes</div>
+            <div class="material-sub">PDF · 42 pages · Updated June 2026</div>
+          </div>
+          <span class="material-badge badge-new">New</span>
+        </a>
+
+        <a class="material-item" href="#" target="_blank">
+          <div class="material-icon notes">📗</div>
+          <div class="material-info">
+            <div class="material-name">C Programming — All Lab Programs</div>
+            <div class="material-sub">PDF · 28 pages · With outputs</div>
+          </div>
+          <span class="material-badge badge-free">Free</span>
+        </a>
+
+        <a class="material-item" href="#" target="_blank">
+          <div class="material-icon pdf">📕</div>
+          <div class="material-info">
+            <div class="material-name">Engineering Physics — PYQ 2018–2024</div>
+            <div class="material-sub">PDF · 15 pages · With answers</div>
+          </div>
+          <span class="material-badge badge-free">Free</span>
+        </a>
+
+        <a class="material-item" href="#" target="_blank">
+          <div class="material-icon notes">📗</div>
+          <div class="material-info">
+            <div class="material-name">Engineering Chemistry — Short Notes</div>
+            <div class="material-sub">PDF · Handwritten · 20 pages</div>
+          </div>
+          <span class="material-badge badge-new">New</span>
+        </a>
+
+        <a class="material-item" href="#" target="_blank">
+          <div class="material-icon video">🎬</div>
+          <div class="material-info">
+            <div class="material-name">English — 2 Mark & 16 Mark Q&A</div>
+            <div class="material-sub">PDF · 10 pages · Exam focused</div>
+          </div>
+          <span class="material-badge badge-free">Free</span>
+        </a>
+
+      </div>
+    </div><!-- end left col -->
+
+
+    <!-- RIGHT: Sidebar Ads -->
+    <div>
+
+      <!-- ✏️ REPLACE with AdSense 300×250 code once approved -->
+      <div class="ad-sidebar">
+        <div class="ad-sidebar-label">Advertisement</div>
+        <div class="ad-placeholder">[ Replace with AdSense 300×250 code ]</div>
+      </div>
+
+      <!-- ✏️ REPLACE with AdSense 300×250 code once approved -->
+      <div class="ad-sidebar">
+        <div class="ad-sidebar-label">Advertisement</div>
+        <div class="ad-placeholder">[ Replace with AdSense 300×250 code ]</div>
+      </div>
+
+    </div><!-- end right col -->
+
+  </div><!-- end two-col -->
+
+</div><!-- end section -->
+
+
+<!-- ===== FOOTER ===== -->
+<!-- ✏️ CHANGE: Update your name and college -->
+<footer id="about">
+  © 2026 StudyNotes CS · Made with ❤️ by a CS student · All notes are original content
+</footer>
+
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+  // Semester tab switcher — no need to edit this
+  function setTab(btn, id) {
+    document.querySelectorAll('.sem-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('sem1').style.display = id === 'sem1' ? 'block' : 'none';
+    document.getElementById('sem2').style.display = id === 'sem2' ? 'block' : 'none';
+  }
+</script>
+
+</body>
+</html>

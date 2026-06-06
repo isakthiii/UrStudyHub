@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ✏️ CHANGE: Update browser tab title -->
+<title>StudyHub</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+  /* ===== RESET ===== */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ===== BASE ===== */
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #000;       /* Black background */
+    color: #fff;
+    min-height: 100vh;
+  }
+
+  /* ===== NAVBAR ===== */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid #222;
+  }
+
+  /* ✏️ CHANGE: Site name in HTML below */
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: #666; }
+
+  /* Upload button */
+  .upload-btn {
+    background: #fff;
+    color: #000;
+    border: none;
+    padding: 9px 20px;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .upload-btn:hover { opacity: 0.85; }
+
+  /* ===== HERO ===== */
+  .hero {
+    text-align: center;
+    padding: 3.5rem 2rem 2rem;
+  }
+
+  /* ✏️ CHANGE: Hero heading and subtext in HTML below */
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
+  }
+  .hero h1 span { color: #555; }
+  .hero p { color: #555; font-size: 0.95rem; margin-bottom: 2rem; }
+
+  /* ===== AD BANNER ===== */
+  /* ✏️ REPLACE: Paste your Google AdSense code inside this div */
+  .ad-strip {
+    margin: 0 2rem 1.5rem;
+    border: 1px dashed #222;
+    border-radius: 10px;
+    padding: 0.85rem;
+    text-align: center;
+    color: #333;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ===== MAIN SECTION ===== */
+  .section {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 1.5rem 2rem;
+  }
+
+  /* Small uppercase section labels */
+  .sec-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #444;
+    margin-bottom: 1rem;
+  }
+
+  /* ===== YEAR CARDS ===== */
+  /* ✏️ ADD: Copy a .year-card block in HTML to add more years */
+  .year-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 2rem;
+  }
+
+  .year-card {
+    border: 1px solid #222;
+    border-radius: 14px;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .year-card:hover,
+  .year-card.active {
+    border-color: #fff;
+    background: #111;
+  }
+  /* White top stripe on active card */
+  .year-card.active::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: #fff;
+    border-radius: 14px 14px 0 0;
+  }
+
+  .year-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1;
+  }
+  .year-label {
+    font-size: 11px;
+    color: #444;
+    margin-top: 4px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* ===== DEPARTMENT BUTTONS ===== */
+  /* ✏️ ADD/REMOVE: Edit department list in the JS depts array below */
+  .dept-section {
+    margin-bottom: 2rem;
+    animation: fadeIn 0.25s ease;
+  }
+
+  .dept-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+
+  .dept-btn {
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 8px 20px;
+    background: transparent;
+    color: #888;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .dept-btn:hover,
+  .dept-btn.active {
+    border-color: #fff;
+    color: #fff;
+    background: #111;
+  }
+  .dept-btn .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #333;
+    transition: background 0.2s;
+  }
+  .dept-btn.active .dot,
+  .dept-btn:hover .dot { background: #fff; }
+
+  /* ===== SUBJECT CARDS ===== */
+  /* ✏️ ADD: Edit subjects in the JS subjects object below */
+  .subjects-section { animation: fadeIn 0.25s ease; }
+
+  .subjects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 10px;
+  }
+
+  .subject-card {
+    border: 1px solid #222;
+    border-radius: 12px;
+    padding: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .subject-card:hover {
+    border-color: #555;
+    background: #0a0a0a;
+  }
+
+  .sub-icon { font-size: 20px; }
+  .sub-name { font-size: 13px; font-weight: 600; color: #fff; }
+
+  .sub-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .sub-tag {
+    font-size: 10px;
+    border: 1px solid #2a2a2a;
+    border-radius: 4px;
+    padding: 2px 7px;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  /* ===== BREADCRUMB ===== */
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #444;
+    margin-bottom: 1.25rem;
+  }
+  .breadcrumb span { color: #666; }
+  .breadcrumb .active-crumb { color: #fff; }
+  .breadcrumb .sep { color: #333; }
+
+  /* ===== FADE IN ANIMATION ===== */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== FOOTER ===== */
+  /* ✏️ CHANGE: Update your name in the footer */
+  footer {
+    border-top: 1px solid #1a1a1a;
+    padding: 1.25rem 2rem;
+    text-align: center;
+    color: #333;
+    font-size: 12px;
+    margin-top: 2rem;
+  }
+
+  /* ===== MOBILE ===== */
+  @media (max-width: 600px) {
+    .year-grid { grid-template-columns: repeat(2, 1fr); }
+    .dept-row  { gap: 8px; }
+    nav        { padding: 1rem; }
+    .section   { padding: 1.25rem; }
+  }
+
+</style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav>
+  <!-- ✏️ CHANGE: Site name here -->
+  <div class="logo">Study<span>Hub</span></div>
+
+  <!-- Upload button — wire this to your upload page/form later -->
+  <button class="upload-btn" onclick="alert('Upload your notes here!')">+ Upload Notes</button>
+</nav>
+
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <!-- ✏️ CHANGE: Update heading and subtext -->
+  <h1>All Your <span>Engineering</span><br>Notes in One Place</h1>
+  <p>Browse by year → select department → find your subjects</p>
+</div>
+
+
+<!-- ===== AD BANNER (Top 728x90) ===== -->
+<!-- ✏️ REPLACE this whole div with your Google AdSense script tag once approved -->
+<div class="ad-strip">
+  Advertisement — [ Google AdSense 728×90 ]
+</div>
+
+
+<!-- ===== MAIN CONTENT ===== -->
+<div class="section">
+
+  <!-- BROWSE BY YEAR -->
+  <div class="sec-label">Browse by year</div>
+  <div class="year-grid">
+
+    <!-- ✏️ COPY this block to add more years -->
+    <div class="year-card" onclick="selectYear(1, this)">
+      <div class="year-num">1</div>
+      <div class="year-label">First Year</div>
+    </div>
+
+    <div class="year-card" onclick="selectYear(2, this)">
+      <div class="year-num">2</div>
+      <div class="year-label">Second Year</div>
+    </div>
+
+    <div class="year-card" onclick="selectYear(3, this)">
+      <div class="year-num">3</div>
+      <div class="year-label">Third Year</div>
+    </div>
+
+    <div class="year-card" onclick="selectYear(4, this)">
+      <div class="year-num">4</div>
+      <div class="year-label">Fourth Year</div>
+    </div>
+
+  </div><!-- end year-grid -->
+
+
+  <!-- DEPARTMENT ROW (appears after year is selected) -->
+  <div id="dept-section" style="display:none;">
+    <div class="dept-section">
+      <div class="sec-label">Select department</div>
+      <!-- Department buttons are injected here by JS -->
+      <div class="dept-row" id="dept-row"></div>
+    </div>
+  </div>
+
+
+  <!-- SUBJECTS GRID (appears after department is selected) -->
+  <div id="subject-section" style="display:none;">
+    <div class="subjects-section">
+      <!-- Breadcrumb: Year 1 › CSE -->
+      <div class="breadcrumb" id="breadcrumb"></div>
+      <div class="sec-label">Subjects</div>
+      <!-- Subject cards are injected here by JS -->
+      <div class="subjects-grid" id="subjects-grid"></div>
+    </div>
+  </div>
+
+</div><!-- end section -->
+
+
+<!-- ===== FOOTER ===== -->
+<!-- ✏️ CHANGE: Your name/college -->
+<footer>
+  © 2026 StudyHub · Original notes only · Free for all students
+</footer>
+
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+
+  // ✏️ CHANGE: Add or remove departments here
+  const depts = ['CSE', 'IT', 'AIDS', 'ECE'];
+
+  // ✏️ CHANGE: Edit subjects per department
+  // To add a subject: { icon: 'emoji', name: 'Subject Name' }
+  // ECE has Engineering Graphics instead of Python
+  const subjects = {
+    CSE: [
+      { icon: '🔤', name: 'Tamil' },
+      { icon: '📖', name: 'English' },
+      { icon: '📐', name: 'Mathematics' },
+      { icon: '🧪', name: 'Chemistry' },
+      { icon: '⚛️', name: 'Physics' },
+      { icon: '🐍', name: 'Python' }
+    ],
+    IT: [
+      { icon: '🔤', name: 'Tamil' },
+      { icon: '📖', name: 'English' },
+      { icon: '📐', name: 'Mathematics' },
+      { icon: '🧪', name: 'Chemistry' },
+      { icon: '⚛️', name: 'Physics' },
+      { icon: '🐍', name: 'Python' }
+    ],
+    AIDS: [
+      { icon: '🔤', name: 'Tamil' },
+      { icon: '📖', name: 'English' },
+      { icon: '📐', name: 'Mathematics' },
+      { icon: '🧪', name: 'Chemistry' },
+      { icon: '⚛️', name: 'Physics' },
+      { icon: '🐍', name: 'Python' }
+    ],
+    ECE: [
+      { icon: '🔤', name: 'Tamil' },
+      { icon: '📖', name: 'English' },
+      { icon: '📐', name: 'Mathematics' },
+      { icon: '🧪', name: 'Chemistry' },
+      { icon: '⚛️', name: 'Physics' },
+      { icon: '📏', name: 'Engineering Graphics' }
+    ]
+  };
+
+  // Track selected year and department
+  let selYear = null;
+  let selDept = null;
+
+  // Called when a year card is clicked
+  function selectYear(y, el) {
+    selYear = y;
+    selDept = null;
+
+    // Highlight selected year card
+    document.querySelectorAll('.year-card').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+
+    // Show department row
+    const ds = document.getElementById('dept-section');
+    ds.style.display = 'block';
+
+    // Build department buttons
+    const row = document.getElementById('dept-row');
+    row.innerHTML = depts.map(d =>
+      `<button class="dept-btn" onclick="selectDept('${d}', this)">
+        <span class="dot"></span>${d}
+      </button>`
+    ).join('');
+
+    // Hide subjects until dept is picked
+    document.getElementById('subject-section').style.display = 'none';
+    document.getElementById('subjects-grid').innerHTML = '';
+  }
+
+  // Called when a department button is clicked
+  function selectDept(d, el) {
+    selDept = d;
+
+    // Highlight selected dept button
+    document.querySelectorAll('.dept-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+
+    // Show subject section
+    const ss = document.getElementById('subject-section');
+    ss.style.display = 'block';
+
+    // Update breadcrumb: Year 1 › CSE
+    document.getElementById('breadcrumb').innerHTML =
+      `<span>Year ${selYear}</span>
+       <span class="sep">›</span>
+       <span class="active-crumb">${d}</span>`;
+
+    // Build subject cards
+    const grid = document.getElementById('subjects-grid');
+    grid.innerHTML = subjects[d].map(s => `
+      <div class="subject-card">
+        <div class="sub-icon">${s.icon}</div>
+        <div class="sub-name">${s.name}</div>
+        <div class="sub-tags">
+          <span class="sub-tag">Notes</span>
+          <span class="sub-tag">PYQ</span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+</script>
+
+</body>
+</html>
